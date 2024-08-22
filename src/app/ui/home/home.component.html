@@ -16,20 +16,19 @@
     />
   </div>
 
-<!-- Input para buscar por ID -->
-<div class="buscar-id">
-  <input
-    type="text"
-    placeholder="Buscar por ID"
-    #idInput
-    (keyup.enter)="obtenerPersonajePorId(idInput.value)"
-  />
-</div>
+  <!-- Input para buscar por ID -->
+  <div class="buscar-id">
+    <input
+      type="text"
+      placeholder="Buscar por ID"
+      #idInput
+      (keyup.enter)="obtenerPersonajePorId(idInput.value)"
+    />
+  </div>
 
-
-  <!-- Lista de personajes (paginados) -->
+  <!-- Lista de personajes paginados -->
   <div class="personajes-list">
-    <div *ngFor="let personaje of personajes" class="personaje-card">
+    <div *ngFor="let personaje of personajesPagina" class="personaje-card">
       <img [src]="personaje.image" alt="{{ personaje.name }}">
       <h3>{{ personaje.name }}</h3>
       <p>Estado: {{ personaje.created }}</p>
@@ -47,10 +46,14 @@
     </button>
 
     <button
-      [disabled]="(paginaActual * personajesPorPagina) >= totalPersonajes"
+      [disabled]="paginaActual === totalPaginas"
       (click)="cambiarPagina(paginaActual + 1)"
     >
       Siguiente
     </button>
   </div>
+</div>
+
+<div *ngIf="cargando" class="loading-message">
+  <p>Loading...</p>
 </div>
