@@ -1,1 +1,56 @@
-<p>home works!</p>
+<div class="container">
+  <h1>Personajes de Rick y Morty</h1>
+
+  <!-- Botón para obtener todos los personajes -->
+  <div class="buscar-todos">
+    <button (click)="obtenerPersonajesPagina()">Buscar todos los personajes</button>
+  </div>
+
+  <!-- Input para buscar por nombre -->
+  <div class="buscar-nombre">
+    <input
+      type="text"
+      placeholder="Buscar por nombre"
+      #nombreInput
+      (keyup.enter)="obtenerPersonajePorNombre(nombreInput.value)"
+    />
+  </div>
+
+<!-- Input para buscar por ID -->
+<div class="buscar-id">
+  <input
+    type="text"
+    placeholder="Buscar por ID"
+    #idInput
+    (keyup.enter)="obtenerPersonajePorId(idInput.value)"
+  />
+</div>
+
+
+  <!-- Lista de personajes (paginados) -->
+  <div class="personajes-list">
+    <div *ngFor="let personaje of personajes" class="personaje-card">
+      <img [src]="personaje.image" alt="{{ personaje.name }}">
+      <h3>{{ personaje.name }}</h3>
+      <p>Estado: {{ personaje.created }}</p>
+      <p>Especie: {{ personaje.species }}</p>
+    </div>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="pagination-controls">
+    <button
+      [disabled]="paginaActual === 1"
+      (click)="cambiarPagina(paginaActual - 1)"
+    >
+      Anterior
+    </button>
+
+    <button
+      [disabled]="(paginaActual * personajesPorPagina) >= totalPersonajes"
+      (click)="cambiarPagina(paginaActual + 1)"
+    >
+      Siguiente
+    </button>
+  </div>
+</div>

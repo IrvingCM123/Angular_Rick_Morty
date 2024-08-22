@@ -8,7 +8,7 @@ export abstract class PersonajesPuerto {
   abstract obtenerPersonajes(): Observable<personaje[]>;
 
   // Método para obtener un personaje por su id
-  abstract obtenerPersonajePorId(id: number): Observable<personaje>;
+  abstract obtenerPersonajePorId(id: string): Observable<personaje>;
 
   // Método para obtener un personaje por su nombre
   abstract obtenerPersonajePorNombre(nombre: string): Observable<personaje[]>;

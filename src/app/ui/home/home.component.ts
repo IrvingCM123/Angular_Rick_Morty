@@ -16,50 +16,59 @@ export class HomeComponent implements OnInit {
     private cacheService: Cache_Service,
   ) { }
 
+  // Arreglo de personajes
   personajes: personaje[] = [];
-  personaje!: personaje;
+
+  // Variables para el paginador
+  paginaActual: number = 1;
+  personajesPorPagina: number = 10;
+  totalPersonajes: number = 0;
 
   ngOnInit(): void {
   }
 
   // Método que obtiene los personajes de la API a través del puerto y los guarda en el cache
   async obtenerPersonajes(): Promise<personaje[]> {
-
-    // Si los personajes ya están en el cache, los devuelve
-    if (this.cacheService.obtener_DatoLocal("personajes")) {
-      return this.cacheService.obtener_DatoLocal("personajes");
-    } else {
       // Si no están en el cache, los obtiene de la API y los guarda en el cache
-      this.personajes = await firstValueFrom(this.personajesUsecase.obtenerPersonajes());
-      this.cacheService.guardar_ArregloLocal("personajes", this.personajes);
+      const datos: any = await firstValueFrom(this.personajesUsecase.obtenerPersonajes());
+      this.personajes = datos.body;
+      this.totalPersonajes = this.personajes.length;
       return this.personajes;
-    }
   }
 
   // Método para obtener un personaje específico por su nombre
-  async obtenerPersonajePorNombre(nombre: string): Promise<personaje> {
-    // Si el personaje ya está en el cache, lo devuelve
-    if (this.cacheService.obtener_DatoLocal(nombre)) {
-      return this.cacheService.obtener_DatoLocal(nombre);
-    } else {
+  async obtenerPersonajePorNombre(nombre: string): Promise<personaje[]> {
       // Si no está en el cache, lo obtiene de la API y lo guarda en el cache
-      this.personajes = await firstValueFrom(this.personajesUsecase.obtenerPersonajePorNombre(nombre));
-      this.cacheService.guardar_DatoLocal(nombre, this.personaje);
-      return this.personaje
-    }
+      const datos: any = await firstValueFrom(this.personajesUsecase.obtenerPersonajePorNombre(nombre));
+      this.personajes = datos.body;
+      this.totalPersonajes = this.personajes.length;
+      return this.personajes
   }
 
   // Método para obtener un personaje específico por su id
-  async obtenerPersonajePorId(id: number): Promise<personaje> {
-    // Si el personaje ya está en el cache, lo devuelve
-    if (this.cacheService.obtener_DatoLocal(id.toString())) {
-      return this.cacheService.obtener_DatoLocal(id.toString());
-    } else {
-      // Si no está en el cache, lo obtiene de la API y lo guarda en el cache
-      this.personaje = await firstValueFrom(this.personajesUsecase.obtenerPersonajePorId(id));
-      this.cacheService.guardar_DatoLocal(id.toString(), this.personaje);
-      return this.personaje
-    }
+  async obtenerPersonajePorId(id: string): Promise<personaje[]> {
+      const datos: any = await firstValueFrom(this.personajesUsecase.obtenerPersonajePorId(id));
+      this.personajes = datos.body;
+      return this.personajes
   }
+
+  // Método para obtener los personajes de la página actual
+  async obtenerPersonajesPagina(): Promise<personaje[]> {
+    // Obtiene los personajes de la API
+    this.personajes = await this.obtenerPersonajes();
+    console.log(this.personajes, "2");
+    // Calcula el índice de inicio y fin de los personajes de la página actual
+    const indiceInicio = (this.paginaActual - 1) * this.personajesPorPagina;
+    const indiceFin = indiceInicio + this.personajesPorPagina;
+    // Devuelve los personajes de la página actual
+    return this.personajes.slice(indiceInicio, indiceFin);
+  }
+
+  // Método para cambiar de página
+  cambiarPagina(pagina: number): void {
+    this.paginaActual = pagina;
+    this.obtenerPersonajesPagina();
+  }
+
 
 }

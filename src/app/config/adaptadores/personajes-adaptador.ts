@@ -12,7 +12,7 @@ import { personaje } from "src/app/domain/personajes-domain/models/personajes.en
 // Adaptador que se encarga de obtener los personajes de la serie Rick and Morty.
 export class PersonajesAdaptador extends PersonajesPuerto {
 
-  api_url = environment.url + "/productosid/"
+  api_url = environment.url;
 
   constructor(private _http: HttpClient) {
     super();
@@ -24,7 +24,7 @@ export class PersonajesAdaptador extends PersonajesPuerto {
   }
 
   // Método para obtener un personaje por su id
-  obtenerPersonajePorId(id: number): Observable<personaje> {
+  obtenerPersonajePorId(id: string): Observable<personaje> {
     return this._http.get<personaje>(`${this.api_url}/Obtener_Personaje_ID/?id=${id}`);
   }
 

@@ -19,7 +19,7 @@ export class PersonajesUsecase {
   }
 
   // Método para obtener un personaje por su id
-  obtenerPersonajePorId(id: number): Observable<personaje> {
+  obtenerPersonajePorId(id: string): Observable<personaje> {
     return this._personajesPuerto.obtenerPersonajePorId(id);
   }
 
