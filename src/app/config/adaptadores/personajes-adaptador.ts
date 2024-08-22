@@ -20,17 +20,17 @@ export class PersonajesAdaptador extends PersonajesPuerto {
 
   // Método para obtener todos los personajes
   obtenerPersonajes(): Observable<personaje[]> {
-    return this._http.get<personaje[]>(`${this.api_url}/character`);
+    return this._http.get<personaje[]>(`${this.api_url}/Obtener_Personajes`);
   }
 
   // Método para obtener un personaje por su id
   obtenerPersonajePorId(id: number): Observable<personaje> {
-    return this._http.get<personaje>(`${this.api_url}/character/${id}`);
+    return this._http.get<personaje>(`${this.api_url}/Obtener_Personaje_ID/?id=${id}`);
   }
 
   // Método para obtener un personaje por su nombre
   obtenerPersonajePorNombre(nombre: string): Observable<personaje[]> {
-    return this._http.get<personaje[]>(`${this.api_url}/character/?name=${nombre}`);
+    return this._http.get<personaje[]>(`${this.api_url}/Obtener_Personaje_Nombre/?name=${nombre}`);
   }
 
 }
