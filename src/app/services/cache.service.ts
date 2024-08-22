@@ -5,13 +5,26 @@ import { Injectable } from '@angular/core';
 })
 export class Cache_Service {
 
+  // Métodos para guardar, obtener, actualizar y eliminar datos en el cache del navegador
+
   obtener_DatoLocal(indice: string): any {
-    return localStorage.getItem(indice);
+    const valor = localStorage.getItem(indice);
+    if (valor) {
+      return JSON.parse(valor);
+    } else {
+      return null; // Si no existe el índice, devuelve null
+    }
   }
 
   guardar_DatoLocal(indice: string, valor: any): void {
     const valorString = JSON.stringify(valor);
     localStorage.setItem(indice, valorString);
+  }
+
+  guardar_ArregloLocal(indice: string, valor: any): void {
+    const arreglo_Local = JSON.parse(this.obtener_DatoLocal(indice)) || [];
+    arreglo_Local.push(valor);
+    this.guardar_DatoLocal(indice, JSON.stringify(arreglo_Local));
   }
 
   eliminar_DatoLocal(indice: string): void {
