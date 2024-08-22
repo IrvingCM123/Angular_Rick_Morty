@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PersonajesUsecase } from 'src/app/domain/personajes-domain/usercase/personajes-usecase';
 
 @Component({
   selector: 'app-home',
